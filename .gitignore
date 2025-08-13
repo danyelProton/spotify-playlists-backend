@@ -1,0 +1,6 @@
+.env
+missingGenres.txt
+data/
+node_modules/
+# .parcel-cache/
+# public/js/dist/

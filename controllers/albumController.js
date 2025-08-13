@@ -18,7 +18,7 @@ export const fetchSpotifyData = async url => {
     }
   });
 
-  console.log(res);
+  // console.log(res);
 
   if (!res.ok) throw new Error(`Spotify request error - ${res.statusText} (${res.status})`);
 
@@ -252,16 +252,18 @@ const updateDb = async (playlistDb, albumsInPlaylist) => {
 
 // create album in database
 const createAlbumInDb = async (album, playlistId) => {
+  const webSearch = await searchWeb(album);
+
   album.artistDb = album.artists.map(artist => ({ spotifyId: artist.id, name: artist.name }));
   album.artistNames = album.artistDb.map(artist => artist.name).join(', ');
   const artistsData = await fetchSpotifyData(album.artists[0].href);
   album.genresSpotify = artistsData.genres;
+  album.genresMerged = [...new Set([...album.genresSpotify, ...webSearch.genres])];
   const links = await fetchStreamingLinks(album.id);
   album.links = links.linksByPlatform;
   const [year, month, day] = album.release_date.split('-');
   // console.log(year, month, day);
 
-  // const webSearch = await searchWeb(album);
 
   await Album.create({
     playlistSpotifyId: playlistId,
@@ -271,10 +273,11 @@ const createAlbumInDb = async (album, playlistId) => {
     name: album.name,
     image: album.images[0].url,
     genresSpotify: album.genresSpotify,
-    // genresWeb: webSearch.genres,
-    // mainGenre: webSearch.mainGenre,
-    // label: webSearch.label,
-    // summary: webSearch.summary,
+    genresWeb: webSearch.genres,
+    genresMerged: album.genresMerged,
+    mainGenre: webSearch.mainGenre,
+    label: webSearch.label,
+    summary: webSearch.summary,
     releaseDate: new Date(year, month - 1, day),
     releaseDateString: album.release_date,
     releaseDatePrecision: album.release_date_precision,

@@ -22,6 +22,7 @@ const albumSchema = mongoose.Schema({
   songsTotal: Number,
   genresSpotify: Array,
   genresWeb: Array,
+  genresMerged: Array,
   mainGenre: String,
   label: String,
   summary: String,

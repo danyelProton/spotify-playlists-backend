@@ -39,7 +39,7 @@ process.on('SIGTERM', () => {
 
 // await AlbumController.getAndSaveAlbums(`${process.env.PLAYLIST_VYPOCUT}`)//.catch(err => console.log(err)); // vypocut
 // await AlbumController.getAndSaveAlbums(`${PLAYLIST_2021}`).catch(err => console.log(err)); // 2021
-// await AlbumController.getAndSaveAlbums();
+// await AlbumController.getAndSaveAlbums().catch(err => console.log(err));
 // const a = await AlbumController.getAlbumsFromDb().catch(err => console.log(err));
 // console.log(a[0]);
 

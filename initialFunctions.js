@@ -36,7 +36,21 @@ const getGenresEmpty = async () => {
   }));;
 };
 
+
+const mergeGenres = async () => {
+  const genresMergedMissing = await Album.find({ genresMerged: undefined });
+  console.log(genresMergedMissing);
+
+  for (const el of genresMergedMissing) {
+    const genresMerged = new Set([...el.genresSpotify, ...el.genresWeb]);
+    await Album.updateOne({ _id: el.id }, { $set: { genresMerged: [...genresMerged] }});
+  };
+
+  console.log('Done');
+};
+
 // await initialPlaylistImport();
 // await getGenresEmpty();
+// await mergeGenres();
 
-// node --env-file=.env initialPlaylistImport.js
+// node --env-file=.env initialFunctions.js

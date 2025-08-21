@@ -28,6 +28,7 @@ const albumSchema = mongoose.Schema({
   summary: String,
   links: Object,
   active: Boolean,
+  slug: String,
   playlists: [
     {
       type: {

@@ -1,3 +1,4 @@
+import slugify from 'slugify';
 import { asyncTimeout, retry, randomNumber } from '../utils.js';
 import { token } from './tokenController.js';
 import Album from '../models/albumModel.js';
@@ -143,8 +144,8 @@ const getPlaylistsFromDb = async () => {
   return await Playlist.find();
 };
 
-export const getAlbumsFromDb = async () => {
-  return await Album.find();
+export const getAlbumsFromDb = async (options = {}) => {
+  return await Album.find(options);
 };
 
 
@@ -262,6 +263,7 @@ const createAlbumInDb = async (album, playlistId) => {
   const links = await fetchStreamingLinks(album.id);
   album.links = links.linksByPlatform;
   const [year, month, day] = album.release_date.split('-');
+  album.slug = slugify(`${album.artistNames} ${album.name}`, { lower: true, strict: true });
   // console.log(year, month, day);
 
 
@@ -284,7 +286,8 @@ const createAlbumInDb = async (album, playlistId) => {
     type: album.album_type === 'album' ? 'LP' : 'EP',
     songsTotal: album.total_tracks,
     links: album.links,
-    active: true
+    active: true,
+    slug: album.slug
   });
 
   // log

@@ -1,10 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import Update from '../models/updateModel.js';
 import { AppError } from '../controllers/errorController.js';
+import { getAlbumsFromDb } from './albumController.js';
 
 // get data from db and write to json file
 export const writeAlbumDataToFile = async () => {
-  const albums = await getAlbumsFromDb();
+  const albums = await getAlbumsFromDb({ active: true });
   // console.log(albums);
   await writeFile('./data/data.json', JSON.stringify(albums));
 };

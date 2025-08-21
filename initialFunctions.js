@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import slugify from 'slugify';
 import Playlist from './models/playlistModel.js';
 import Album from './models/albumModel.js';
 import { fetchSpotifyData } from './controllers/albumController.js';
@@ -49,8 +50,22 @@ const mergeGenres = async () => {
   console.log('Done');
 };
 
+
+const addSlug = async () => {
+  const slugMissing = await Album.find({ slug: undefined });
+
+  for (const el of slugMissing) {
+    const slug = slugify(`${el.artistNames} ${el.name}`, { lower: true, strict: true });
+    await Album.updateOne({ _id: el.id }, { $set: { slug }});
+  };
+
+  console.log('Done');
+};
+
+
 // await initialPlaylistImport();
 // await getGenresEmpty();
 // await mergeGenres();
+// await addSlug();
 
 // node --env-file=.env initialFunctions.js

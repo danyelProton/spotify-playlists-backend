@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import cron from 'cron';
+import slugify from 'slugify';
 import app from './app.js';
 import * as AlbumController from './controllers/albumController.js';
 import { asyncTimeout, retry } from './utils.js';
+import { writeAlbumDataToFile } from './controllers/apiController.js';
 
 // handling uncaught exceptions - nehandlovane errors (bugs) v sync kode (napr. console.log neexistujucej premennej) - vtedy netreba cakat na ukoncenie servera
 process.on('uncaughtException', err => {
@@ -33,15 +35,18 @@ process.on('SIGTERM', () => {
   })
 });
 
+// console.log(slugify(`I'm totally fine with it 👍 don't give a fuck anymore 👍`, { lower: true, strict: true }));
+console.log(slugify(`LIVE IN PARIS 28.05.1975`, { lower: true, strict: true }));
 
 
 
 
+// await AlbumController.getAndSaveAlbums().catch(err => console.log(err));
 // await AlbumController.getAndSaveAlbums(`${process.env.PLAYLIST_VYPOCUT}`)//.catch(err => console.log(err)); // vypocut
 // await AlbumController.getAndSaveAlbums(`${PLAYLIST_2021}`).catch(err => console.log(err)); // 2021
-// await AlbumController.getAndSaveAlbums().catch(err => console.log(err));
 // const a = await AlbumController.getAlbumsFromDb().catch(err => console.log(err));
 // console.log(a[0]);
+
 
 // various APIs testing
 // console.log(await AlbumController.fetchSpotifyData('https://api.spotify.com/v1/me/top/tracks').catch(err => console.log(err)));
@@ -55,3 +60,7 @@ process.on('SIGTERM', () => {
 // const a = await AlbumController.fetchSpotifyData('https://api.spotify.com/v1/albums/754R5T7XTstZinW8Srr2Zi').catch(err => console.log(err));
 // console.log(a);
 // await AlbumController.fetchSpotifyData('https://api.spotify.com/v1/albums/7ngtNHKrtpN37n5Sr2lwQV x');
+
+
+// write data to file
+// await writeAlbumDataToFile();

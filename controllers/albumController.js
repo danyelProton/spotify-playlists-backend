@@ -41,7 +41,7 @@ export const fetchStreamingLinks = async albumId => {
 };
 
 // web search api (Linkup)
-export const searchWeb = async (album) => {
+export const searchWeb = async (name, artists, year) => {
   const summaryPrompt1 = `
     Add the 'summary' key to the object. This key should contain a string - you are a music expert, a reviewer with acquired taste. Provide a short summary about the album, the essence of the album. You can be informal, even funny (but not necessarily). Finishing sentence should be in the 'If you like' style, mentioning up to 3 similar artists. Assume readers already have information about the album name, the release date, and the artist name.
   `;
@@ -78,9 +78,9 @@ export const searchWeb = async (album) => {
 
     Input:
       {
-        name: '${album.name}',
-        artists: '${album.artistNames}',
-        year: '${album.release_date.slice(0, 4)}'
+        name: '${name}',
+        artists: '${artists}',
+        year: '${year}'
       }
   `;
 
@@ -253,18 +253,19 @@ const updateDb = async (playlistDb, albumsInPlaylist) => {
 
 // create album in database
 const createAlbumInDb = async (album, playlistId) => {
-  const webSearch = await searchWeb(album);
-
   album.artistDb = album.artists.map(artist => ({ spotifyId: artist.id, name: artist.name }));
   album.artistNames = album.artistDb.map(artist => artist.name).join(', ');
   const artistsData = await fetchSpotifyData(album.artists[0].href);
   album.genresSpotify = artistsData.genres;
-  album.genresMerged = [...new Set([...album.genresSpotify, ...webSearch.genres])];
+  album.slug = slugify(`${album.artistNames} ${album.name}`, { lower: true, strict: true });
   const links = await fetchStreamingLinks(album.id);
   album.links = links.linksByPlatform;
   const [year, month, day] = album.release_date.split('-');
-  album.slug = slugify(`${album.artistNames} ${album.name}`, { lower: true, strict: true });
   // console.log(year, month, day);
+  
+  const webSearch = await searchWeb(album.name, album.artistNames, year);
+
+  album.genresMerged = [...new Set([...album.genresSpotify, ...webSearch.genres])];
 
 
   await Album.create({

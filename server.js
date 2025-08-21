@@ -35,10 +35,6 @@ process.on('SIGTERM', () => {
   })
 });
 
-// console.log(slugify(`I'm totally fine with it 👍 don't give a fuck anymore 👍`, { lower: true, strict: true }));
-console.log(slugify(`LIVE IN PARIS 28.05.1975`, { lower: true, strict: true }));
-
-
 
 
 // await AlbumController.getAndSaveAlbums().catch(err => console.log(err));
@@ -61,6 +57,9 @@ console.log(slugify(`LIVE IN PARIS 28.05.1975`, { lower: true, strict: true }));
 // console.log(a);
 // await AlbumController.fetchSpotifyData('https://api.spotify.com/v1/albums/7ngtNHKrtpN37n5Sr2lwQV x');
 
-
 // write data to file
 // await writeAlbumDataToFile();
+
+// other
+// console.log(slugify(`I'm totally fine with it 👍 don't give a fuck anymore 👍`, { lower: true, strict: true }));
+// console.log(slugify(`LIVE IN PARIS 28.05.1975`, { lower: true, strict: true }));

@@ -257,10 +257,12 @@ const createAlbumInDb = async (album, playlistId) => {
   album.artistNames = album.artistDb.map(artist => artist.name).join(', ');
   const artistsData = await fetchSpotifyData(album.artists[0].href);
   album.genresSpotify = artistsData.genres;
-  album.slug = slugify(`${album.artistNames} ${album.name}`, { lower: true, strict: true });
   const links = await fetchStreamingLinks(album.id);
   album.links = links.linksByPlatform;
   const [year, month, day] = album.release_date.split('-');
+  album.releaseDate = new Date(year, month - 1, day);
+  album.releaseTimestamp = Number((album.releaseDate.getTime() / 1000).toFixed(0));
+  album.slug = slugify(`${album.artistNames} ${album.name}`, { lower: true, strict: true });
   // console.log(year, month, day);
   
   const webSearch = await searchWeb(album.name, album.artistNames, year);
@@ -281,7 +283,7 @@ const createAlbumInDb = async (album, playlistId) => {
     mainGenre: webSearch.mainGenre,
     label: webSearch.label,
     summary: webSearch.summary,
-    releaseDate: new Date(year, month - 1, day),
+    releaseDate: album.releaseDate,
     releaseDateString: album.release_date,
     releaseDatePrecision: album.release_date_precision,
     type: album.album_type === 'album' ? 'LP' : 'EP',

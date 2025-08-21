@@ -63,9 +63,22 @@ const addSlug = async () => {
 };
 
 
+const addTimestamp = async () => {
+  const timestampMissing = await Album.find({ releaseTimestamp: undefined });
+
+  for (const el of timestampMissing) {
+    const releaseTimestamp = Number((el.releaseDate.getTime() / 1000).toFixed(0));
+    await Album.updateOne({ _id: el.id }, { $set: { releaseTimestamp }});
+  };
+
+  console.log('Done');
+};
+
+
 // await initialPlaylistImport();
 // await getGenresEmpty();
 // await mergeGenres();
 // await addSlug();
+// await addTimestamp();
 
 // node --env-file=.env initialFunctions.js

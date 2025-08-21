@@ -14,6 +14,7 @@ const albumSchema = mongoose.Schema({
   releaseDate: Date,
   releaseDateString: String,
   releaseDatePrecision: String,
+  releaseTimestamp: Number,
   image: String,
   type: {
     type: String,

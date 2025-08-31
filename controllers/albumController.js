@@ -286,6 +286,7 @@ const createAlbumInDb = async (album, playlistId) => {
     releaseDate: album.releaseDate,
     releaseDateString: album.release_date,
     releaseDatePrecision: album.release_date_precision,
+    releaseTimestamp: album.releaseTimestamp,
     type: album.album_type === 'album' ? 'LP' : 'EP',
     songsTotal: album.total_tracks,
     links: album.links,

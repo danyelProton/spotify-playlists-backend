@@ -18,13 +18,17 @@ const initialPlaylistImport = async () => {
     const playlistFetched = await fetchSpotifyData(`https://api.spotify.com/v1/playlists/${playlistId}`);
     await asyncTimeout(500);
     const exists = await Playlist.findOne({ spotifyId: playlistId });
+
     if (!exists) Playlist.create({
       name: playlistFetched.name,
       type: `${playlistsYears.find(playlist => playlist === playlistId) ? 'year' : 'other'}`,
       spotifyId: playlistId
     });
-  };
+  }
 };
+
+
+
 
 // get albums with empty genres from web search API
 const getGenresEmpty = async () => {
@@ -34,8 +38,10 @@ const getGenresEmpty = async () => {
     name: album.name,
     artists: album.artistNames,
     year: album.releaseDateString.slice(0, 4)
-  }));;
+  }));
 };
+
+
 
 
 const mergeGenres = async () => {
@@ -45,7 +51,7 @@ const mergeGenres = async () => {
   for (const el of genresMergedMissing) {
     const genresMerged = new Set([...el.genresSpotify, ...el.genresWeb]);
     await Album.updateOne({ _id: el.id }, { $set: { genresMerged: [...genresMerged] }});
-  };
+  }
 
   console.log('Done');
 };
@@ -57,7 +63,7 @@ const addSlug = async () => {
   for (const el of slugMissing) {
     const slug = slugify(`${el.artistNames} ${el.name}`, { lower: true, strict: true });
     await Album.updateOne({ _id: el.id }, { $set: { slug }});
-  };
+  }
 
   console.log('Done');
 };
@@ -69,7 +75,7 @@ const addTimestamp = async () => {
   for (const el of timestampMissing) {
     const releaseTimestamp = Number((el.releaseDate.getTime() / 1000).toFixed(0));
     await Album.updateOne({ _id: el.id }, { $set: { releaseTimestamp }});
-  };
+  }
 
   console.log('Done');
 };

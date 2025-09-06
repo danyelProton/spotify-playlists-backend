@@ -38,6 +38,9 @@ class Token {
     return tokenData;
   }
 
+
+
+
   // get first access token
   async getAccessToken() {
     const params = querystring.stringify({
@@ -51,6 +54,9 @@ class Token {
     await this.saveTokenToDb();
   }
 
+
+
+
   // get new access token using refresh token
   async getNewAccessToken() {
     const params = querystring.stringify({
@@ -63,6 +69,9 @@ class Token {
     await this.saveTokenToDb();
   }
 
+
+
+
   // helper function to set object values with data from Spotify
   saveTokenToObject(token) {
     this.accessToken = token.access_token;
@@ -70,6 +79,9 @@ class Token {
     this.accessTokenIssuedAt = Date.now();
     this.accessTokenExpiresAt = this.accessTokenIssuedAt + token.expires_in * 1000;
   }
+
+
+
 
   // save token to db
   async saveTokenToDb() {
@@ -93,8 +105,12 @@ class Token {
         // refreshToken: this.refreshToken ? this.encryptToken('refresh') : '',
         ...(this.refreshToken) && { refreshToken: this.encryptToken('refresh') }
       });
-    };
+    }
+
   }
+
+
+
 
   async getTokenFromDb() {
     const tokenDb = await User.findOne({ name: 'Daniel' });
@@ -109,12 +125,18 @@ class Token {
     if (Date.now() > tokenDb.accessTokenExpiresAt - 5) await token.getNewAccessToken();
   }
 
+
+
+
   encryptToken(type) {
     const cipher = crypto.createCipheriv(Token.algorithm, Token.key, Token.iv);
     let encrypted = cipher.update(type === 'refresh' ? this.refreshToken : this.accessToken, 'utf8', 'hex');
     encrypted += cipher.final('hex');
     return encrypted;
   }
+
+
+
 
   decryptToken(type) {
     const decipher = crypto.createDecipheriv(Token.algorithm, Token.key, Token.iv);
@@ -126,16 +148,22 @@ class Token {
 
 
 
+
 // INITIAL LOGIN TO SPOTIFY ACCOUNT, CONFIRM SCOPES, GET AUTHORIZATION CODE AND ACCESS AND REFRESH TOKEN (LOGIN AND CALLBACK ROUTE HANDLERS)
 // https://developer.spotify.com/documentation/web-api/tutorials/code-flow
 const generateRandomString = length => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
   let string = '';
+
   for (let i = 0; i < length; i++) {
     string += characters[Math.floor(Math.random() * characters.length)];
-  };
+  }
+
   return string;
 };
+
+
+
 
 export const loginHandler = (req, res, next) => {
   const state = generateRandomString(16);
@@ -151,6 +179,9 @@ export const loginHandler = (req, res, next) => {
     }));
 };
 
+
+
+
 export const callbackHandler = async (req, res, next) => {
   token.authCode = req.query.code;
   const state = req.query.state;
@@ -161,5 +192,8 @@ export const callbackHandler = async (req, res, next) => {
 
   res.send();
 };
+
+
+
 
 export const token = new Token();

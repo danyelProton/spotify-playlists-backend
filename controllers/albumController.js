@@ -6,7 +6,6 @@ import Playlist from '../models/playlistModel.js';
 import Update from '../models/updateModel.js';
 
 
-
 // FETCH DATA FROM EXTERNAL APIS -----------------------------------------------------------------------
 // get Spotify data
 export const fetchSpotifyData = async url => {
@@ -27,6 +26,9 @@ export const fetchSpotifyData = async url => {
   return data;
 };
 
+
+
+
 // get streaming links for different services
 // WEB - https://odesli.co/
 // API - https://linktree.notion.site/API-d0ebe08a5e304a55928405eb682f6741
@@ -39,6 +41,9 @@ export const fetchStreamingLinks = async albumId => {
   const data = await res.json();
   return data;
 };
+
+
+
 
 // web search api (Linkup)
 export const searchWeb = async (name, artists, year) => {
@@ -139,10 +144,12 @@ export const searchWeb = async (name, artists, year) => {
 
 
 
+
 // GET DATABASE DATA -------------------------------------------------------------------
-const getPlaylistsFromDb = async () => {
+export const getPlaylistsFromDb = async () => {
   return await Playlist.find();
 };
+
 
 export const getAlbumsFromDb = async (options = {}) => {
   return await Album.find(options);
@@ -163,6 +170,9 @@ export const getAlbums = async playlist => {
   return uniqueAlbums;
 };
 
+
+
+
 // helper funtion to get songs in the playlist
 const getPlaylistSongs = async songsUrl => {
   let songs = [];
@@ -175,10 +185,13 @@ const getPlaylistSongs = async songsUrl => {
     const songsDataNextPage = await fetchSpotifyData(nextSongsUrl);
     nextSongsUrl = songsDataNextPage.next;
     songs.push(...songsDataNextPage.items);
-  };
+  }
 
   return songs;
 };
+
+
+
 
 // helper function to get albums from playlist songs (each song object has album object so no need to fetch album data from Spotify)
 // year playlists - unique values of album (year playlists contain entire albums)
@@ -187,15 +200,19 @@ const getUniqueAlbums = async (playlistSongs, playlistType) => {
   const albums = playlistSongs.map(song => song.track.album);
 
   let uniqueAlbumIds;
+
   if (playlistType === 'year') uniqueAlbumIds = [...new Set(albums.map(album => album.id))];
+
   if (playlistType === 'other') {
     uniqueAlbumIds = [];
     const songsGroupByAlbums = Object.groupBy(albums, album => album.id);
+
     for (const [album, songs] of Object.entries(songsGroupByAlbums)) {
       const countSongs = songs.length;
       if (countSongs > 1) uniqueAlbumIds.push(album);
-    };
-  };
+    }
+
+  }
 
   return uniqueAlbumIds.map(id => albums.find(album => album.id === id));
 };
@@ -232,9 +249,9 @@ const updateDb = async (playlistDb, albumsInPlaylist) => {
         const albumToCreate = albumsInPlaylist.find(album => album.id === albumId);
         // console.log(albumToCreate);
         await createAlbumInDb(albumToCreate, playlistDb.spotifyId);
-      };
-    };
-  };
+      }
+    }
+  }
 
   const removeFromDb = albumsDbSet.difference(albumsSpotifySet);
   // log
@@ -246,9 +263,11 @@ const updateDb = async (playlistDb, albumsInPlaylist) => {
       const countPlaylists = albumData.playlists.length;
       if (countPlaylists === 1) await Album.updateOne({ spotifyId: albumId }, { $pull: { playlists: { spotifyId: playlistDb.spotifyId }}, $set: { active: false }});
       if (countPlaylists > 1) await Album.updateOne({ spotifyId: albumId }, { $pull: { playlists: { spotifyId: playlistDb.spotifyId }}});
-    };
-  };
+    }
+  }
 };
+
+
 
 
 // create album in database
@@ -302,6 +321,8 @@ const createAlbumInDb = async (album, playlistId) => {
 };
 
 
+
+
 // update lastUpdated field in db
 const lastUpdatedDb = async () => {
   const lastUpdatedDoc = await Update.find();
@@ -329,7 +350,7 @@ export const getAndSaveAlbums = async (playlistId = '') => {
     const albumsInPlaylist = await retry(getAlbums, 'getAlbums', {}, playlist);
     // console.log(albumsInPlaylist);
     await retry(updateDb, 'updateDb', {}, playlist, albumsInPlaylist);
-  };
+  }
 
   // update log db
   await lastUpdatedDb();

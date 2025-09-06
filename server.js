@@ -4,7 +4,7 @@ import slugify from 'slugify';
 import app from './app.js';
 import * as AlbumController from './controllers/albumController.js';
 import { asyncTimeout, retry } from './utils.js';
-import { writeAlbumDataToFile } from './controllers/apiController.js';
+import { writeAlbumDataToFile, writePlaylistDataToFile, writeLastUpdateDataToFile } from './controllers/apiController.js';
 
 // handling uncaught exceptions - nehandlovane errors (bugs) v sync kode (napr. console.log neexistujucej premennej) - vtedy netreba cakat na ukoncenie servera
 process.on('uncaughtException', err => {
@@ -59,6 +59,8 @@ process.on('SIGTERM', () => {
 
 // write data to file
 // await writeAlbumDataToFile();
+// await writePlaylistDataToFile();
+// await writeLastUpdateDataToFile();
 
 // other
 // console.log(slugify(`I'm totally fine with it 👍 don't give a fuck anymore 👍`, { lower: true, strict: true }));

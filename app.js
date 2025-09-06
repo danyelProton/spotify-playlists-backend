@@ -21,7 +21,8 @@ app.use(compression());
 app.get('/spotifyserver/login', TokenController.loginHandler);
 app.get('/spotifyserver/callback', TokenController.callbackHandler);
 app.get('/api/albums', ApiController.getAlbumDataFromFile);
-app.get('/api/updates', ApiController.getLastUpdateFromDb);
+app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
+app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
 app.all('/{*any}', (req, res, next) => {
   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
 });

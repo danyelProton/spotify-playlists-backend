@@ -1,15 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "controllers/apiController.js": {
-      "memory": 1024,
-      "maxDuration": 60
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "crons": [
     {
       "path": "/api/cron",
       "schedule": "30 20 * * *"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "server.js"
     }
   ]
 }

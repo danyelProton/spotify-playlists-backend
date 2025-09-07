@@ -12,6 +12,9 @@ const playlistsYears = [process.env.PLAYLIST_2025, process.env.PLAYLIST_2024, pr
 const playlistsOther = [process.env.PLAYLIST_VYPOCUT, process.env.PLAYLIST_JAZZ, process.env.PLAYLIST_INE, process.env.PLAYLIST_AMBIENT];
 const playlists = playlistsYears.concat(playlistsOther);
 
+
+
+
 // loop over playlists and create if doesn't exist 
 const initialPlaylistImport = async () => {
   for (const playlistId of playlists) {
@@ -57,6 +60,8 @@ const mergeGenres = async () => {
 };
 
 
+
+
 const addSlug = async () => {
   const slugMissing = await Album.find({ slug: undefined });
 
@@ -69,6 +74,8 @@ const addSlug = async () => {
 };
 
 
+
+
 const addTimestamp = async () => {
   const timestampMissing = await Album.find({ releaseTimestamp: undefined });
 
@@ -79,6 +86,7 @@ const addTimestamp = async () => {
 
   console.log('Done');
 };
+
 
 
 // await initialPlaylistImport();

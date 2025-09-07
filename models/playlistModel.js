@@ -6,7 +6,8 @@ const playlistSchema = mongoose.Schema({
     enum: ['year', 'other']
   },
   name: String,
-  spotifyId: String
+  spotifyId: String,
+  active: Boolean
 });
 
 const Playlist = mongoose.model('playlist', playlistSchema);

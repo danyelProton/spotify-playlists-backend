@@ -23,6 +23,7 @@ app.get('/spotifyserver/callback', TokenController.callbackHandler);
 app.get('/api/albums', ApiController.getAlbumDataFromFile);
 app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
 app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
+app.get('/api/cron', ApiController.runCronJob);
 app.all('/{*any}', (req, res, next) => {
   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
 });

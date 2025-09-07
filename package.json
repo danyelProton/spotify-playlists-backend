@@ -6,13 +6,12 @@
     "start": "SET NODE_ENV=production node server.js",
     "dev": "node --env-file=.env --watch-path=./ server.js"
   },
-  "author": "",
+  "author": "DB",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "compression": "^1.8.1",
     "cors": "^2.8.5",
-    "cron": "^4.3.3",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "mongoose": "^8.13.2",

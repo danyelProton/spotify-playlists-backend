@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import cron from 'cron';
 import slugify from 'slugify';
 import app from './app.js';
 import * as AlbumController from './controllers/albumController.js';
@@ -37,10 +36,15 @@ process.on('SIGTERM', () => {
 
 
 
+
+// await fetch('http://localhost:3000/api/cron');
+
+
 // await AlbumController.getAndSaveAlbums().catch(err => console.log(err));
 // await AlbumController.getAndSaveAlbums(`${process.env.PLAYLIST_VYPOCUT}`)//.catch(err => console.log(err)); // vypocut
 // await AlbumController.getAndSaveAlbums(`${PLAYLIST_2021}`).catch(err => console.log(err)); // 2021
 // const a = await AlbumController.getAlbumsFromDb().catch(err => console.log(err));
+// const a = await AlbumController.getAlbumsFromDb({ active: true }, { summary: 0, 'playlists.spotifyId': 0 }).catch(err => console.log(err));
 // console.log(a[0]);
 
 

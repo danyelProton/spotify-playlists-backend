@@ -33,7 +33,17 @@ export const generateQuery = (name, artists, year, summaryPrompt) => {
     - 'year': the year the album was released
 
     You have 4 tasks:
-    1. Add the 'genres' key to the object. This key should contain an array of 3 music genres that accurately describe the style of music on the album. Genres should be in lowercase. Use single quotes. Use english language.
+    1. Add the 'genres' key to the object. This key should contain an array of 3 music genres that accurately describe the style of music on the album. Genres should be in lowercase. Use single quotes. Use english language. Some genres can have multiple variations - for example, hip hop / hip-hop. If you encounter on the following genres here are the ones you should prefer:
+    alt-country / alt country - prefer alt country
+    darkwave / dark wave - prefer darkwave
+    electroacoustic / electro-acoustic	- prefer electroacoustic
+    hip-hop / hip hop	- prefer hip-hop
+    jazz-funk / jazz funk	- prefer jazz funk
+    neo-psychedelic / neo-psychedelia	- prefer neo-psychedelic
+    psychedelia / psychedelic - prefer psychedelic
+    synth pop / synth-pop / synthpop - prefer synth-pop
+    alt-rock / alternative rock	- prefer alternative rock
+    alt-pop / alternative pop	- prefer alternative pop
     2. Add the 'mainGenre' key to the object. This key should contain a string - the main genre of the album. It could be one of the following options: pop, rock, folk, country, metal, punk, jazz, electronic, ambient, rap, classical, R&B.
     3. Add the 'label' key to the object. This key should contain a string - the record label that released the album. If you're not confident or haven't found any info about record label, return N/A.
     4. ${summaryPrompt}

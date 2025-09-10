@@ -62,7 +62,7 @@ export const getPlaylistDataFromFile = async (req, res, next) => {
 
 // updates route controller
 export const getLastUpdateDataFromFile = async (req, res, next) => {
-  const lastUpdate = process.env.NODE_ENV === 'development' ? readFile('./data/lastUpdate.json', 'utf-8') : JSON.stringify(await Update.find());
+  const lastUpdate = process.env.NODE_ENV === 'development' ? await readFile('./data/lastUpdate.json', 'utf-8') : JSON.stringify(await Update.find());
   if (!lastUpdate) throw new AppError(404, 'No updates found.');
 
   res.status(200).json({
@@ -73,11 +73,9 @@ export const getLastUpdateDataFromFile = async (req, res, next) => {
 
 
 
+// cron route controller
 export const runCronJob = async (req, res, next) => {
   await getAndSaveAlbums().catch(err => console.log(err));
-  process.env.NODE_ENV === 'development' && await writeAlbumDataToFile();
-  process.env.NODE_ENV === 'development' && await writePlaylistDataToFile();
-  process.env.NODE_ENV === 'development' && await writeLastUpdateDataToFile();
 
   res.status(200).json({
     status: 'success',

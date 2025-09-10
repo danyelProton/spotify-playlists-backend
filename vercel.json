@@ -1,17 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
+  "functions": {
+    "server.js": {
+      "runtime": "@vercel/node"
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/cron",
-      "schedule": "00 06 * * *"
-    }
-  ],
+  },
   "routes": [
     {
       "src": "/(.*)",

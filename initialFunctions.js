@@ -9,7 +9,7 @@ const DB = process.env.DATABASE.replace('<db_password>', process.env.DATABASE_PA
 mongoose.connect(DB).then(con => console.log('DB connection successful'));
 
 const playlistsYears = [process.env.PLAYLIST_2025, process.env.PLAYLIST_2024, process.env.PLAYLIST_2023, process.env.PLAYLIST_2022, process.env.PLAYLIST_2021];
-const playlistsOther = [process.env.PLAYLIST_VYPOCUT, process.env.PLAYLIST_JAZZ, process.env.PLAYLIST_INE, process.env.PLAYLIST_AMBIENT];
+const playlistsOther = [process.env.PLAYLIST_VYPOCUT, process.env.PLAYLIST_JAZZ, process.env.PLAYLIST_INE, process.env.PLAYLIST_AMBIENT, process.env.PLAYLIST_ELEKTRONIKA];
 const playlists = playlistsYears.concat(playlistsOther);
 
 
@@ -25,7 +25,8 @@ const initialPlaylistImport = async () => {
     if (!exists) Playlist.create({
       name: playlistFetched.name,
       type: `${playlistsYears.find(playlist => playlist === playlistId) ? 'year' : 'other'}`,
-      spotifyId: playlistId
+      spotifyId: playlistId,
+      active: true
     });
   }
 };

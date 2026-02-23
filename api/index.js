@@ -58,3 +58,6 @@ process.on('SIGTERM', () => {
     console.log('Process terminated.');
   })
 });
+
+
+export default app;

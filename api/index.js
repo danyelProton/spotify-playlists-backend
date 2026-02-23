@@ -28,6 +28,11 @@ app.use(cors({
 app.use(express.json({ limit: '10kb' }));
 app.use(compression());
 
+app.use((req, res, next) => {
+  console.log(`path seen: ${req.path}`);
+  next();
+});
+
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/albums', ApiController.getAlbumDataFromFile);
@@ -36,7 +41,7 @@ app.get('/updates', ApiController.getLastUpdateDataFromFile);
 // app.all('/{*any}', (req, res, next) => {
 //   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
 // });
-app.all("*", (req, res) => res.send(`path seen: ${req.path}`));
+// app.all("/*", (req, res) => res.send(`path seen: ${req.path}`));
 app.use(errorHandler);
 
 
@@ -63,3 +68,4 @@ process.on('SIGTERM', () => {
 
 
 export default serverless(app);
+// export default app;

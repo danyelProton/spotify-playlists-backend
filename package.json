@@ -7,7 +7,7 @@
     "build:sync": "esbuild spotify-sync/index.js --bundle --platform=node --outfile=spotify-sync/dist/index.js",
     "dev:sync": "cd spotify-sync && node --env-file=../.env index.js",
     "dev:auth-setup": "cd spotify-sync/auth-setup && node --env-file=../../.env index.js",
-    "dev:api": "cd api && node --env-file=../.env app.js"
+    "dev:api": "cd api && node --env-file=../.env index.js"
   },
   "author": "DB",
   "license": "ISC",

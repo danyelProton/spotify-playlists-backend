@@ -63,21 +63,21 @@ const host = process.env.HOST || 'localhost';
 // const server = app.listen(port, host, () => console.log(`Listening to requests on port ${port}`));
 
 
-// handling unhandled promise rejections - nehandlovane errors v async kode - napr. chyba pri connectnuti databazy; exitneme process, ale az vtedy ked server ukoncil vsetky pending alebo prebiehajuce tasky (process.exit je executed az ked je server closed)
-process.on('unhandledRejection', err => {
-  console.log(err);
-  server.close(() => {
-    process.exit(1);
-  });
-});
+// // handling unhandled promise rejections - nehandlovane errors v async kode - napr. chyba pri connectnuti databazy; exitneme process, ale az vtedy ked server ukoncil vsetky pending alebo prebiehajuce tasky (process.exit je executed az ked je server closed)
+// process.on('unhandledRejection', err => {
+//   console.log(err);
+//   server.close(() => {
+//     process.exit(1);
+//   });
+// });
 
-// handlovanie SIGTERM - signal, ktory posielaju niektore hostingy, aby ukoncili proces - napr. kde sa deployuje novy kod; nepouzivame process.exit(), lebo uz samotny SIGTERM sposobi ukoncenie aplikacie
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received. Shutting down gracefully.');
-  server.close(() => {
-    console.log('Process terminated.');
-  })
-});
+// // handlovanie SIGTERM - signal, ktory posielaju niektore hostingy, aby ukoncili proces - napr. kde sa deployuje novy kod; nepouzivame process.exit(), lebo uz samotny SIGTERM sposobi ukoncenie aplikacie
+// process.on('SIGTERM', () => {
+//   console.log('SIGTERM received. Shutting down gracefully.');
+//   server.close(() => {
+//     console.log('Process terminated.');
+//   })
+// });
 
 
 // export default serverless(app);

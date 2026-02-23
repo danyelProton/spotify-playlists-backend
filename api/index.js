@@ -7,6 +7,8 @@ import helmet from 'helmet';
 import * as ApiController from './apiController.js';
 import { AppError, errorHandler } from '../shared/errorController.js';
 
+
+
 // handling uncaught exceptions - nehandlovane errors (bugs) v sync kode (napr. console.log neexistujucej premennej) - vtedy netreba cakat na ukoncenie servera
 process.on('uncaughtException', err => {
   console.log(err);

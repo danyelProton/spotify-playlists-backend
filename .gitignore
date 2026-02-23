@@ -2,3 +2,4 @@
 api/data
 node_modules/
 spotify-playlists-backend.zip
+.vercel

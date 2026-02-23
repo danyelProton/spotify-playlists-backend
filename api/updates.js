@@ -42,17 +42,15 @@ app.all('*', (req, res) => {
 
 
 app.get('/api/updates', (req, res) => {
-  res.send("Vercel + Express is working!");
+  res.status(200).json({
+    message: "Success! Express is running on Vercel.",
+    timestamp: new Date().toISOString()
+  });
 });
-
 // app.get('/favicon.ico', (req, res) => res.status(204).end());
 // app.get('/api/albums', ApiController.getAlbumDataFromFile);
 // app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
 // app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
-// app.all('/{*any}', (req, res, next) => {
-//   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
-// });
-// app.all("/*", (req, res) => res.send(`path seen: ${req.path}`));
 app.use(errorHandler);
 
 
@@ -78,5 +76,5 @@ process.on('SIGTERM', () => {
 });
 
 
-export default serverless(app);
-// export default app;
+// export default serverless(app);
+export default app;

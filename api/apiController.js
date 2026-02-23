@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import Update from '../shared/updateModel.js';
 import { AppError } from '../shared/errorController.js';
+import { getAlbumsFromDb, getPlaylistsFromDb } from '../shared/utils.js';
 
 
 //// ROUTE CONTROLLERS -------------------------------------------------------------------

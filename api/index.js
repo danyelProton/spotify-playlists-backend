@@ -1,4 +1,5 @@
 import express, { json } from 'express';
+import ServerlessHttp from 'serverless-http';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
@@ -60,4 +61,4 @@ process.on('SIGTERM', () => {
 });
 
 
-export default app;
+export default ServerlessHttp(app);

@@ -41,7 +41,7 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
-const server = app.listen(port, host, () => console.log(`Listening to requests on port ${port}`));
+// const server = app.listen(port, host, () => console.log(`Listening to requests on port ${port}`));
 
 
 // handling unhandled promise rejections - nehandlovane errors v async kode - napr. chyba pri connectnuti databazy; exitneme process, ale az vtedy ked server ukoncil vsetky pending alebo prebiehajuce tasky (process.exit je executed az ked je server closed)

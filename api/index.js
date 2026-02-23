@@ -36,6 +36,7 @@ app.get('/updates', ApiController.getLastUpdateDataFromFile);
 // app.all('/{*any}', (req, res, next) => {
 //   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
 // });
+app.all("*", (req, res) => res.send(`path seen: ${req.path}`));
 app.use(errorHandler);
 
 

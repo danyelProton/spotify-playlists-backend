@@ -41,6 +41,10 @@ app.all('*', (req, res) => {
 });
 
 
+app.get('/api/updates', (req, res) => {
+  res.send("Vercel + Express is working!");
+});
+
 // app.get('/favicon.ico', (req, res) => res.status(204).end());
 // app.get('/api/albums', ApiController.getAlbumDataFromFile);
 // app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
@@ -74,9 +78,5 @@ process.on('SIGTERM', () => {
 });
 
 
-// export default serverless(app);
+export default serverless(app);
 // export default app;
-
-export default (req, res) => {
-  res.status(200).send("Vercel is finally working.");
-};

@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import ServerlessHttp from 'serverless-http';
+import serverless from 'serverless-http';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
@@ -33,9 +33,9 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/api/albums', ApiController.getAlbumDataFromFile);
 app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
 app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
-app.all('/{*any}', (req, res, next) => {
-  throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
-});
+// app.all('/{*any}', (req, res, next) => {
+//   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
+// });
 app.use(errorHandler);
 
 
@@ -61,4 +61,4 @@ process.on('SIGTERM', () => {
 });
 
 
-export default ServerlessHttp(app);
+export default serverless(app);

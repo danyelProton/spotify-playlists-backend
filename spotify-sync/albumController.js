@@ -1,10 +1,11 @@
 import slugify from 'slugify';
-import { asyncTimeout, retry, randomNumber } from '../utils.js';
-import { generateSummaryPrompt, generateQuery, outputSchema } from '../webSearchUtils.js';
-import { token } from './tokenController.js';
-import Album from '../models/albumModel.js';
-import Playlist from '../models/playlistModel.js';
-import Update from '../models/updateModel.js';
+import { asyncTimeout, retry, randomNumber } from '../shared/utils.js';
+import { generateSummaryPrompt, generateQuery, outputSchema } from './webSearchUtils.js';
+import { token } from './auth-setup/tokenController.js';
+import { getAlbumsFromDb, getPlaylistsFromDb } from '../shared/utils.js';
+import Album from '../shared/albumModel.js';
+import Playlist from '../shared/playlistModel.js';
+import Update from '../shared/updateModel.js';
 
 
 // FETCH DATA FROM EXTERNAL APIS -----------------------------------------------------------------------
@@ -76,19 +77,6 @@ export const searchWeb = async (name, artists, year) => {
   return response;
 };
 
-
-
-
-
-// GET DATABASE DATA -------------------------------------------------------------------
-export const getPlaylistsFromDb = async (query = {}, projection = {}) => {
-  return await Playlist.find(query, projection);
-};
-
-
-export const getAlbumsFromDb = async (query = {}, projection = {}) => {
-  return await Album.find(query, projection);
-};
 
 
 

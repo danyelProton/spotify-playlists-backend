@@ -1,45 +1,26 @@
-import mongoose from 'mongoose';
-// import slugify from 'slugify';
-import app from './app.js';
-// import * as AlbumController from './controllers/albumController.js';
-// import { asyncTimeout, retry } from './utils.js';
-import { writeAlbumDataToFile, writePlaylistDataToFile, writeLastUpdateDataToFile } from './controllers/apiController.js';
-
-// handling uncaught exceptions - nehandlovane errors (bugs) v sync kode (napr. console.log neexistujucej premennej) - vtedy netreba cakat na ukoncenie servera
-process.on('uncaughtException', err => {
-  console.log(err);
-  process.exit(1);
-});
+import mongoose from 'mongoose'; // for AWS cron serverless function - DB connect must be in app.js
+import * as AlbumController from './albumController.js';
+import { asyncTimeout, retry, getAlbumsFromDb, getPlaylistsFromDb, writeAlbumDataToFile, writePlaylistDataToFile, writeLastUpdateDataToFile } from '../shared/utils.js';
 
 const DB = process.env.DATABASE.replace('<db_password>', process.env.DATABASE_PASSWORD);
-mongoose.connect(DB).then(con => console.log('DB connection successful'));
+// await mongoose.connect(DB).then(() => console.log('DB connection successful'));
 
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || 'localhost';
-const server = app.listen(port, host, () => console.log(`Listening to requests on port ${port}`));
+export const handler = async () => {
+  await mongoose.connect(DB).then(() => console.log('DB connection successful'));
+  await AlbumController.getAndSaveAlbums(`${process.env.PLAYLIST_VYPOCUT}`);
+  await mongoose.disconnect(DB).then(() => console.log('DB connection closed'));
+};
 
-// handling unhandled promise rejections - nehandlovane errors v async kode - napr. chyba pri connectnuti databazy; exitneme process, ale az vtedy ked server ukoncil vsetky pending alebo prebiehajuce tasky (process.exit je executed az ked je server closed)
-process.on('unhandledRejection', err => {
-  console.log(err);
-  server.close(() => {
-    process.exit(1);
-  });
-});
-
-// handlovanie SIGTERM - signal, ktory posielaju niektore hostingy, aby ukoncili proces - napr. kde sa deployuje novy kod; nepouzivame process.exit(), lebo uz samotny SIGTERM sposobi ukoncenie aplikacie
-process.on('SIGTERM', () => {
-  console.log('SIGTERM received. Shutting down gracefully.');
-  server.close(() => {
-    console.log('Process terminated.');
-  })
-});
-
+if (process.env.NODE_ENV === 'development') {
+  // handler();
+}
 
 
 //// main function
 // await AlbumController.getAndSaveAlbums().catch(err => console.log(err));
 
 // await AlbumController.getAndSaveAlbums(`${process.env.PLAYLIST_VYPOCUT}`)//.catch(err => console.log(err)); // vypocut
+// console.log(await AlbumController.getAndSaveAlbums(`${process.env.PLAYLIST_VYPOCUT}`))//.catch(err => console.log(err)); // vypocut
 // await AlbumController.getAndSaveAlbums(`${PLAYLIST_2021}`).catch(err => console.log(err)); // 2021
 // const a = await AlbumController.getAlbumsFromDb().catch(err => console.log(err));
 // const a = await AlbumController.getAlbumsFromDb({ active: true }, { summary: 0, 'playlists.spotifyId': 0 }).catch(err => console.log(err));

@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "SET NODE_ENV=production node server.js",
-    "dev": "node --env-file=.env --watch-path=./ server.js"
+    "build:api": "esbuild api/index.js --bundle --platform=node --outfile=api/dist/index.js",
+    "build:sync": "esbuild spotify-sync/index.js --bundle --platform=node --outfile=spotify-sync/dist/index.js",
+    "dev:sync": "cd spotify-sync && node --env-file=../.env index.js",
+    "dev:auth-setup": "cd spotify-sync/auth-setup && node --env-file=../../.env index.js",
+    "dev:api": "cd api && node --env-file=../.env app.js"
   },
   "author": "DB",
   "license": "ISC",
@@ -17,5 +20,8 @@
     "mongoose": "^8.13.2",
     "serverless-http": "^4.0.0",
     "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.3"
   }
 }

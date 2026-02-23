@@ -1,5 +1,4 @@
 .env
-data/
+api/data
 node_modules/
-# .parcel-cache/
-# public/js/dist/
+spotify-playlists-backend.zip

@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import slugify from 'slugify';
-import Playlist from './models/playlistModel.js';
-import Album from './models/albumModel.js';
-import { fetchSpotifyData } from './controllers/albumController.js';
-import { asyncTimeout } from './utils.js';
+import Playlist from '../shared/playlistModel.js';
+import Album from '../shared/albumModel.js';
+import { fetchSpotifyData } from './albumController.js';
+import { asyncTimeout } from '../shared/utils.js';
 
 const DB = process.env.DATABASE.replace('<db_password>', process.env.DATABASE_PASSWORD);
 mongoose.connect(DB).then(con => console.log('DB connection successful'));

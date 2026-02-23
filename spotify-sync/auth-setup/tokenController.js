@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 import querystring from 'node:querystring';
-import User from '../models/tokenModel.js';
+import User from './tokenModel.js';
 
 
 // SPOTIFY AUTHORIZATION, AUTHENTICATION

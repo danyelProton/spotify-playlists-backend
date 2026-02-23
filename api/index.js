@@ -34,10 +34,10 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/favicon.ico', (req, res) => res.status(204).end());
-app.get('/albums', ApiController.getAlbumDataFromFile);
-app.get('/playlists', ApiController.getPlaylistDataFromFile);
-app.get('/updates', ApiController.getLastUpdateDataFromFile);
+// app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/api/albums', ApiController.getAlbumDataFromFile);
+app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
+app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
 // app.all('/{*any}', (req, res, next) => {
 //   throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
 // });

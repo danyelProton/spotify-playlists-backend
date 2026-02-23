@@ -74,5 +74,9 @@ process.on('SIGTERM', () => {
 });
 
 
-export default serverless(app);
+// export default serverless(app);
 // export default app;
+
+export default (req, res) => {
+  res.status(200).send("Vercel is finally working.");
+};

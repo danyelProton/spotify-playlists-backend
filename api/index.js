@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
-import * as ApiController from '../apiController.js';
-import { AppError, errorHandler } from '../../shared/errorController.js';
+import * as ApiController from './apiController.js';
+import { AppError, errorHandler } from '../shared/errorController.js';
 
 // handling uncaught exceptions - nehandlovane errors (bugs) v sync kode (napr. console.log neexistujucej premennej) - vtedy netreba cakat na ukoncenie servera
 process.on('uncaughtException', err => {

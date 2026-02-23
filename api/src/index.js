@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
-import * as ApiController from './apiController.js';
-import { AppError, errorHandler } from '../shared/errorController.js';
+import * as ApiController from '../apiController.js';
+import { AppError, errorHandler } from '../../shared/errorController.js';
 
 // handling uncaught exceptions - nehandlovane errors (bugs) v sync kode (napr. console.log neexistujucej premennej) - vtedy netreba cakat na ukoncenie servera
 process.on('uncaughtException', err => {
@@ -40,7 +40,7 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || 'localhost';
-// const server = app.listen(port, host, () => console.log(`Listening to requests on port ${port}`));
+const server = app.listen(port, host, () => console.log(`Listening to requests on port ${port}`));
 
 
 // handling unhandled promise rejections - nehandlovane errors v async kode - napr. chyba pri connectnuti databazy; exitneme process, ale az vtedy ked server ukoncil vsetky pending alebo prebiehajuce tasky (process.exit je executed az ked je server closed)

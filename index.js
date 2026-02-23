@@ -1,1 +1,1 @@
-export { default } from './api/updates.js';
+export { default } from './api/index.js'

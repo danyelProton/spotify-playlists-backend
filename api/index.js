@@ -28,29 +28,33 @@ app.use(cors({
 app.use(express.json({ limit: '10kb' }));
 app.use(compression());
 
-app.use((req, res, next) => {
-  console.log(`path seen: ${req.path}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`path seen: ${req.path}`);
+//   next();
+// });
 
-app.all('*', (req, res) => {
-  res.json({ 
-    working: true, 
-    pathReceived: req.url 
-  });
-});
+// app.all('*', (req, res) => {
+//   res.json({ 
+//     working: true, 
+//     pathReceived: req.url 
+//   });
+// });
 
 
-app.get('/api/updates', (req, res) => {
-  res.status(200).json({
-    message: "Success! Express is running on Vercel.",
-    timestamp: new Date().toISOString()
-  });
+// app.get('/api/updates', (req, res) => {
+//   res.status(200).json({
+//     message: "Success! Express is running on Vercel.",
+//     timestamp: new Date().toISOString()
+//   });
+// });
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+app.get('/api/albums', ApiController.getAlbumDataFromFile);
+app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
+app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
+app.all('/{*any}', (req, res, next) => {
+  throw new AppError(404, `Can't find ${req.originalUrl} on this server`);
 });
-// app.get('/favicon.ico', (req, res) => res.status(204).end());
-// app.get('/api/albums', ApiController.getAlbumDataFromFile);
-// app.get('/api/playlists', ApiController.getPlaylistDataFromFile);
-// app.get('/api/updates', ApiController.getLastUpdateDataFromFile);
 app.use(errorHandler);
 
 
